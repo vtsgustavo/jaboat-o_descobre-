@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="pt-BR"><head><meta charset="utf-8"><title>Jaboatão Descobre</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);--bg:#f7f9fb;--sf:#fff;--tx:#12263a;--mu:#5b6b7b;--bl:#0b5ea8;--gr:#2e9e5b;--ye:#f5b82e;--bd:#e2e8ee}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e1620;--sf:#16212e;--tx:#eaf1f8;--mu:#9fb0c1;--bl:#5aa9ef;--gr:#4cc47f;--bd:#27384a}}
+:root[data-theme="dark"]{--bg:#0e1620;--sf:#16212e;--tx:#eaf1f8;--mu:#9fb0c1;--bl:#5aa9ef;--gr:#4cc47f;--bd:#27384a}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}
+a{color:var(--bl)}h1,h2,h3{line-height:1.2;margin:0 0 .5rem}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--sf);border-bottom:1px solid var(--bd);display:flex;flex-wrap:wrap;gap:.5rem 1rem;align-items:center;padding:.7rem 1rem}
+.logo{font-weight:800;font-size:1.2rem;color:var(--bl);text-decoration:none}.logo b{color:var(--gr)}
+nav{display:flex;flex-wrap:wrap;gap:.25rem}nav a{padding:.35rem .7rem;border-radius:99px;text-decoration:none;color:var(--tx);font-size:.92rem}nav a:hover,nav a.on{background:var(--bl);color:#fff}
+main{max-width:1100px;margin:0 auto;padding:1rem}
+.hero{background:linear-gradient(135deg,#0b5ea8,#2e9e5b);color:#fff;border-radius:24px;padding:3rem 1.5rem;margin-bottom:1.5rem}
+.hero h1{font-size:clamp(1.8rem,5vw,3rem)}.hero p{max-width:560px;opacity:.95}
+.sr{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1rem}
+input,select,textarea{font:inherit;padding:.6rem .8rem;border:1px solid var(--bd);border-radius:12px;background:var(--sf);color:var(--tx)}
+.sr input{flex:1;min-width:200px}
+button,.btn{font:inherit;cursor:pointer;border:0;border-radius:12px;padding:.6rem 1rem;background:var(--bl);color:#fff;text-decoration:none;display:inline-block;transition:transform .15s}
+button:hover,.btn:hover{transform:translateY(-2px)}button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid var(--ye);outline-offset:2px}
+.y{background:var(--ye);color:#12263a;font-weight:700}.g{background:var(--gr)}.o{background:transparent;color:var(--bl);border:1px solid var(--bl)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:1rem}
+.card{background:var(--sf);border:1px solid var(--bd);border-radius:20px;overflow:hidden;display:flex;flex-direction:column;transition:box-shadow .2s}.card:hover{box-shadow:0 8px 24px #0002}
+.ph{height:150px;display:flex;align-items:center;justify-content:center;font-size:3rem;color:#fff}
+.cb{padding:1rem;display:flex;flex-direction:column;gap:.4rem;flex:1}.cb p{margin:0;color:var(--mu);font-size:.92rem;flex:1}
+.tag{font-size:.78rem;color:var(--gr);font-weight:700}
+.chips{display:flex;flex-wrap:wrap;gap:.5rem;margin:.75rem 0}.chip{border-radius:99px;padding:.4rem .9rem;background:var(--sf);color:var(--tx);border:1px solid var(--bd)}.chip.on{background:var(--gr);color:#fff;border-color:var(--gr)}
+section{margin:2rem 0}.row{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center}
+.li{display:flex;gap:.5rem;align-items:center;justify-content:space-between;background:var(--sf);border:1px solid var(--bd);border-radius:14px;padding:.6rem .9rem;margin:.4rem 0}
+.bar{height:10px;background:var(--bd);border-radius:9px;overflow:hidden}.bar i{display:block;height:100%;background:var(--gr);transition:width .4s}
+.badge{opacity:.45;filter:grayscale(1)}.badge.on{opacity:1;filter:none}
+.toast{position:fixed;bottom:calc(1rem + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%);background:var(--tx);color:var(--bg);padding:.6rem 1.1rem;border-radius:99px;z-index:9}
+footer{text-align:center;color:var(--mu);padding:2rem 1rem;border-top:1px solid var(--bd);font-size:.9rem}
+.note{background:color-mix(in srgb,var(--ye) 25%,transparent);border-radius:12px;padding:.6rem .9rem;font-size:.9rem}
+</style></head><body><div id="root"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+<script>
+const h=React.createElement,{useState,useEffect}=React;
+const CATS=['Praias e natureza','História e patrimônio','Cultura e tradição','Gastronomia','Lazer e entretenimento','Turismo religioso'];
+const ICO=['🏖️','🏛️','🎭','🍽️','🎡','⛪'],COL=['#0b5ea8','#8a5a2b','#7b3fa0','#d9822b','#2e9e5b','#4b6584'];
+const DEF='Informações detalhadas (história, horários, endereço e visitação) serão cadastradas pelo administrador.';
+const SEED=[['piedade','Praia de Piedade',0],['candeias','Praia de Candeias',0],['barra','Praia de Barra de Jangada',0],['prazeres','Igreja de Nossa Senhora dos Prazeres (Monte dos Guararapes)',5]].map(a=>({id:a[0],name:a[1],cat:a[2],desc:DEF}));
+const ROTAS=[['Rota das Praias',[0]],['Rota Histórica e Cultural',[1,2,5]],['Rota Gastronômica',[3]],['Rota de Natureza e Lazer',[0,4]]];
+const ls=(k,d)=>{try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}};
+function useLS(k,d){const[s,set]=useState(()=>ls(k,d));useEffect(()=>{try{localStorage.setItem(k,JSON.stringify(s))}catch(e){}},[s]);return[s,set]}
+function useHash(){const g=()=>location.hash.slice(1)||'home';const[x,s]=useState(g);useEffect(()=>{const f=()=>{s(g());scrollTo(0,0)};addEventListener('hashchange',f);return()=>removeEventListener('hashchange',f)},[]);return x}
+const tog=(a,id)=>a.includes(id)?a.filter(x=>x!==id):a.concat(id);
+function Card({p,A}){return h('article',{className:'card'},h('div',{className:'ph',style:{background:`linear-gradient(135deg,${COL[p.cat]},#0b5ea8aa)`},'aria-hidden':true},ICO[p.cat]),
+ h('div',{className:'cb'},h('span',{className:'tag'},CATS[p.cat]),h('h3',null,p.name),h('p',null,'Jaboatão dos Guararapes, PE'),
+ h('div',{className:'row'},h('a',{className:'btn',href:'#destino-'+p.id},'Conhecer lugar'),
+ h('button',{className:'o','aria-label':'Favoritar',onClick:()=>A.fav(p.id)},A.favs.includes(p.id)?'♥':'♡'))))}
+function Home({A}){const[q,setQ]=useState('');
+ return h('div',null,h('div',{className:'hero'},h('h1',null,'Jaboatão tem muito mais para você descobrir!'),
+ h('p',null,'Moradores e visitantes: explore praias, história, cultura e sabores da cidade e monte seu roteiro.'),
+ h('form',{className:'sr',onSubmit:e=>{e.preventDefault();A.setQ(q);location.hash='explorar'}},
+ h('input',{value:q,onChange:e=>setQ(e.target.value),placeholder:'Buscar atrativos…','aria-label':'Buscar atrativos'}),h('button',{className:'y'},'Explorar destinos'))),
+ h('section',null,h('h2',null,'Destinos em destaque'),h('div',{className:'grid'},A.places.slice(0,4).map(p=>h(Card,{key:p.id,p,A})))),
+ h('section',null,h('h2',null,'Descubra Jaboatão por categorias'),h('div',{className:'chips'},CATS.map((c,i)=>h('button',{key:c,className:'chip',onClick:()=>{A.setCat(i);location.hash='explorar'}},ICO[i]+' '+c)))),
+ h('section',null,h('h2',null,'Roteiros recomendados'),h('div',{className:'chips'},ROTAS.map(r=>h('a',{key:r[0],className:'chip',href:'#roteiros'},'🧭 '+r[0])))))}
+function Explorar({A}){const l=A.places.filter(p=>(A.cat<0||p.cat===A.cat)&&p.name.toLowerCase().includes(A.q.toLowerCase()));
+ return h('div',null,h('h2',null,'Explorar atrativos'),h('input',{value:A.q,onChange:e=>A.setQ(e.target.value),placeholder:'Pesquisar…','aria-label':'Pesquisar',style:{width:'100%',maxWidth:420}}),
+ h('div',{className:'chips'},[-1].concat(CATS.map((c,i)=>i)).map(i=>h('button',{key:i,className:'chip'+(A.cat===i?' on':''),onClick:()=>A.setCat(i)},i<0?'Todos':CATS[i]))),
+ l.length?h('div',{className:'grid'},l.map(p=>h(Card,{key:p.id,p,A}))):h('p',null,'Nenhum atrativo encontrado.'))}
+function Destino({id,A}){const p=A.places.find(x=>x.id===id);const[t,setT]=useState('');const[n,setN]=useState(5);
+ if(!p)return h('p',null,'Destino não encontrado. ',h('a',{href:'#explorar'},'Voltar'));
+ const rv=A.revs.filter(r=>r.pid===id),vis=A.vis.includes(id);
+ return h('div',null,h('div',{className:'ph card',style:{background:`linear-gradient(135deg,${COL[p.cat]},#2e9e5b)`,height:220}},ICO[p.cat]),
+ h('span',{className:'tag'},CATS[p.cat]),h('h2',null,p.name),h('p',null,p.desc),h('p',{className:'note'},'Galeria, história, horários e endereço oficiais ainda não cadastrados: use o painel administrativo.'),
+ h('div',{className:'row'},h('button',{onClick:()=>A.fav(id)},A.favs.includes(id)?'♥ Favorito':'♡ Favoritar'),
+ h('button',{className:'g',onClick:()=>A.rota(id)},A.route.includes(id)?'Remover do roteiro':'+ Adicionar ao roteiro'),
+ h('button',{className:'y',onClick:()=>A.visit(id)},vis?'✓ Visitado':'Registrar visita'),
+ h('a',{className:'btn o',target:'_blank',rel:'noopener',href:'https://www.openstreetmap.org/search?query='+encodeURIComponent(p.name+', Jaboatão dos Guararapes')},'Ver no mapa')),
+ h('section',null,h('h3',null,'Avaliações'),
+ h('form',{className:'row',onSubmit:e=>{e.preventDefault();if(!t.trim())return;A.addRev({pid:id,n,t});setT('')}},
+ h('select',{value:n,onChange:e=>setN(+e.target.value),'aria-label':'Nota'},[5,4,3,2,1].map(x=>h('option',{key:x,value:x},'★'.repeat(x)))),
+ h('input',{value:t,onChange:e=>setT(e.target.value),placeholder:'Seu comentário','aria-label':'Comentário',style:{flex:1,minWidth:180}}),h('button',null,'Enviar')),
+ rv.length?rv.map((r,i)=>h('div',{className:'li',key:i},h('span',null,r.t),h('b',null,'★'.repeat(r.n)))):h('p',null,'Seja o primeiro a avaliar.')))}
+function Roteiros({A}){const L=A.route.map(i=>A.places.find(p=>p.id===i)).filter(Boolean);
+ const mv=(i,d)=>{const r=A.route.slice(),j=i+d;if(j<0||j>=r.length)return;[r[i],r[j]]=[r[j],r[i]];A.setRoute(r)};
+ const share=()=>{const s='Meu roteiro em Jaboatão: '+L.map((p,i)=>(i+1)+'. '+p.name).join(' → ');(navigator.clipboard?navigator.clipboard.writeText(s):Promise.reject()).then(()=>A.msg('Roteiro copiado!'),()=>A.msg(s))};
+ return h('div',null,h('h2',null,'Monte seu roteiro'),h('div',{className:'chips'},ROTAS.map(r=>h('button',{key:r[0],className:'chip',onClick:()=>{A.setRoute(A.places.filter(p=>r[1].includes(p.cat)).map(p=>p.id));A.msg(r[0]+' carregada')}},'🧭 '+r[0]))),
+ L.length?L.map((p,i)=>h('div',{className:'li',key:p.id},h('span',null,(i+1)+'. '+p.name),h('span',{className:'row'},
+ h('button',{className:'o','aria-label':'Subir',onClick:()=>mv(i,-1)},'↑'),h('button',{className:'o','aria-label':'Descer',onClick:()=>mv(i,1)},'↓'),h('a',{className:'btn o',href:'#destino-'+p.id},'Info'),h('button',{className:'o','aria-label':'Remover',onClick:()=>A.rota(p.id)},'✕')))):h('p',null,'Roteiro vazio. Escolha uma rota temática ou adicione atrativos em ',h('a',{href:'#explorar'},'Explorar'),'.'),
+ L.length>0&&h('div',{className:'row'},h('button',{className:'g',onClick:share},'Compartilhar'),
+ h('a',{className:'btn o',target:'_blank',rel:'noopener',href:'https://www.openstreetmap.org/search?query='+encodeURIComponent(L[0].name+', Jaboatão dos Guararapes')},'Abrir 1ª parada no mapa')),
+ h('p',{className:'note'},'Mapa interativo (Leaflet + OpenStreetMap) e rotas estão previstos para o projeto Vite; aqui o mapa abre no OpenStreetMap.'))}
+function Favoritos({A}){const l=A.places.filter(p=>A.favs.includes(p.id));return h('div',null,h('h2',null,'Favoritos'),l.length?h('div',{className:'grid'},l.map(p=>h(Card,{key:p.id,p,A}))):h('p',null,'Você ainda não salvou lugares.'))}
+function Desafio({A}){const v=A.places.filter(p=>A.vis.includes(p.id)),c=k=>v.filter(p=>k.includes(p.cat)).length,t=k=>A.places.filter(p=>k.includes(p.cat)).length;
+ const B=[['🥇','Primeiro destino explorado',v.length>0],['🏖️','Explorador das praias',c([0])>0&&c([0])===t([0])],['🏛️','Conhecedor da história local',c([1,5])>0],['🎭','Explorador cultural',c([2])>0]];
+ const pc=A.places.length?Math.round(v.length/A.places.length*100):0;
+ return h('div',null,h('h2',null,'Desafio Explorador'),h('p',null,v.length+' de '+A.places.length+' destinos visitados'),h('div',{className:'bar'},h('i',{style:{width:pc+'%'}})),
+ h('div',{className:'grid',style:{marginTop:'1rem'}},B.map(b=>h('div',{key:b[1],className:'card cb badge'+(b[2]?' on':'')},h('div',{style:{fontSize:'2.5rem'}},b[0]),h('b',null,b[1]),h('span',null,b[2]?'Conquistado!':'Bloqueado')))))}
+function Simple({k,title,fields,A}){const[l,setL]=useLS(k,[]);const[a,setA]=useState('');const[b,setB]=useState('');
+ return h('div',null,h('h2',null,title),h('p',{className:'note'},'Modo demonstração: itens são salvos só neste navegador. Nenhum dado fictício foi pré-cadastrado.'),
+ h('form',{className:'row',onSubmit:e=>{e.preventDefault();if(!a.trim())return;setL(l.concat({a,b}));setA('');setB('');A.msg('Cadastrado')}},
+ h('input',{value:a,onChange:e=>setA(e.target.value),placeholder:fields[0],'aria-label':fields[0]}),h('input',{value:b,onChange:e=>setB(e.target.value),placeholder:fields[1],'aria-label':fields[1]}),h('button',null,'Adicionar')),
+ l.length?l.map((x,i)=>h('div',{className:'li',key:i},h('span',null,h('b',null,x.a),' ',x.b),h('button',{className:'o',onClick:()=>setL(l.filter((_,j)=>j!==i))},'Remover'))):h('p',null,'Nada cadastrado ainda.'))}
+function Admin({A}){const[n,setN]=useState('');const[c,setC]=useState(0);const[d,setD]=useState('');
+ return h('div',null,h('h2',null,'Painel administrativo'),h('p',{className:'note'},'Demonstração sem autenticação (Supabase Auth previsto). Dados em localStorage.'),
+ h('div',{className:'grid'},[['Atrativos',A.places.length],['Favoritos',A.favs.length],['Visitas',A.vis.length],['Avaliações',A.revs.length],['No roteiro',A.route.length]].map(s=>h('div',{className:'card cb',key:s[0]},h('h2',null,s[1]),s[0]))),
+ h('section',null,h('h3',null,'Novo atrativo'),h('form',{className:'row',onSubmit:e=>{e.preventDefault();if(!n.trim())return;A.setExtra(A.extra.concat({id:'x'+Date.now(),name:n,cat:+c,desc:d||DEF}));setN('');setD('');A.msg('Atrativo cadastrado')}},
+ h('input',{value:n,onChange:e=>setN(e.target.value),placeholder:'Nome','aria-label':'Nome'}),h('select',{value:c,onChange:e=>setC(e.target.value),'aria-label':'Categoria'},CATS.map((x,i)=>h('option',{key:x,value:i},x))),
+ h('input',{value:d,onChange:e=>setD(e.target.value),placeholder:'Descrição','aria-label':'Descrição',style:{flex:1,minWidth:180}}),h('button',null,'Cadastrar'))),
+ A.extra.map(p=>h('div',{className:'li',key:p.id},h('span',null,p.name),h('button',{className:'o',onClick:()=>A.setExtra(A.extra.filter(x=>x.id!==p.id))},'Remover'))),
+ A.revs.length>0&&h('section',null,h('h3',null,'Moderar avaliações'),A.revs.map((r,i)=>h('div',{className:'li',key:i},h('span',null,r.t),h('button',{className:'o',onClick:()=>A.setRevs(A.revs.filter((_,j)=>j!==i))},'Remover')))))}
+function App(){const r=useHash();const[extra,setExtra]=useLS('jd-extra',[]);const[favs,setFavs]=useLS('jd-favs',[]);const[route,setRoute]=useLS('jd-route',[]);
+ const[vis,setVis]=useLS('jd-vis',[]);const[revs,setRevs]=useLS('jd-revs',[]);const[q,setQ]=useState('');const[cat,setCat]=useState(-1);const[toast,setToast]=useState('');
+ const msg=s=>{setToast(s);setTimeout(()=>setToast(''),2200)};
+ const A={places:SEED.concat(extra),extra,setExtra,favs,route,setRoute,vis,revs,setRevs,q,setQ,cat,setCat,msg,
+ fav:i=>{setFavs(tog(favs,i));msg(favs.includes(i)?'Removido dos favoritos':'Salvo nos favoritos')},
+ rota:i=>{setRoute(tog(route,i));msg(route.includes(i)?'Removido do roteiro':'Adicionado ao roteiro')},
+ visit:i=>{setVis(tog(vis,i));msg(vis.includes(i)?'Visita removida':'Visita registrada!')},addRev:x=>{setRevs(revs.concat(x));msg('Avaliação enviada')}};
+ const N=[['home','Início'],['explorar','Explorar'],['roteiros','Roteiros'],['eventos','Eventos'],['comercio','Comércio local'],['favoritos','Favoritos'],['desafio','Desafio'],['admin','Admin']];
+ let v;if(r.startsWith('destino-'))v=h(Destino,{id:r.slice(8),A});else v={home:h(Home,{A}),explorar:h(Explorar,{A}),roteiros:h(Roteiros,{A}),favoritos:h(Favoritos,{A}),desafio:h(Desafio,{A}),admin:h(Admin,{A}),
+ eventos:h(Simple,{k:'jd-ev',title:'Agenda cultural',fields:['Nome do evento','Data, horário e local'],A}),comercio:h(Simple,{k:'jd-co',title:'Viva o Comércio Local',fields:['Estabelecimento','Contato'],A})}[r]||h(Home,{A});
+ return h('div',null,h('header',null,h('a',{className:'logo',href:'#home'},'Jaboatão ',h('b',null,'Descobre')),h('nav',{'aria-label':'Principal'},N.map(n=>h('a',{key:n[0],href:'#'+n[0],className:r===n[0]?'on':''},n[1])))),
+ h('main',null,v),h('footer',null,'Jaboatão Descobre — protótipo de guia turístico de Jaboatão dos Guararapes, PE'),toast&&h('div',{className:'toast',role:'status'},toast))}
+ReactDOM.createRoot(document.getElementById('root')).render(h(App));
+</script></body></html>
