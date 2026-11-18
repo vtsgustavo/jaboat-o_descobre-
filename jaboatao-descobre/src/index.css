@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import url('leaflet/dist/leaflet.css');
+
+@layer components {
+  .btn { @apply inline-flex items-center gap-2 rounded-xl bg-brand px-4 py-2 font-medium text-white transition hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-4 focus-visible:outline-sun; }
+  .btn-outline { @apply bg-transparent text-brand ring-1 ring-brand; }
+  .btn-sun { @apply bg-sun text-slate-900 font-bold; }
+  .btn-green { @apply bg-nature; }
+  .input { @apply rounded-xl border border-slate-300 bg-white px-3 py-2; }
+  .card { @apply flex flex-col overflow-hidden rounded-3xl border border-slate-200 bg-white transition hover:shadow-lg; }
+  .note { @apply rounded-xl bg-sun/25 px-3 py-2 text-sm; }
+}
